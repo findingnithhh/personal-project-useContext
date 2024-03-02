@@ -30,6 +30,10 @@ const FormSubmit = () => {
     e.preventDefault();
     addNewUser(formData);
     console.log(formData);
+    // Clear the form after submission
+    setFromData(Default_Form);
+    // Reset the form to clear the file input
+    e.currentTarget.reset();
   };
 
   //   handle on change in the form
@@ -46,36 +50,58 @@ const FormSubmit = () => {
       setFromData({ ...formData, image: imageUrl });
     }
   };
+  //   handle clear input
+  const handleOnClear = () => {
+    setFromData(Default_Form);
+  };
   return (
     <>
-      <form onSubmit={handleOnSubmit}>
+      <form onSubmit={handleOnSubmit} onReset={handleOnClear}>
+        <label htmlFor="username">Username</label>
         <InputText
-          placeholder="Username"
+          className="mt-1"
+          placeholder="Enter your username"
           size="sm"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleOnChangeInput}
         />
+        <label htmlFor="email">Email</label>
         <InputText
-          placeholder="Email"
+          className="mt-1"
+          placeholder="Enter your email"
           size="sm"
           type="email"
           name="email"
           value={formData.email}
           onChange={handleOnChangeInput}
         />
+        <label htmlFor="image">Image</label>
         <InputFile
-          className="w-[500px]"
+          className="mt-1 w-[500px]"
           size="md"
           type="file"
-          name="image"
           ref={inputFileRef}
+          name="image"
           accept="image/*"
           onChange={handleOnImgaeChange}
         />
-        <Button type="submit" className="mt-2" size="md" color="primary">
+        <Button
+          type="submit"
+          className="mt-2 mb-5 float-end"
+          size="md"
+          color="primary"
+        >
           Create
+        </Button>
+        <Button
+          type="reset"
+          className="mt-2 mr-2 mb-5 float-end"
+          size="md"
+          color="error"
+        >
+          Clear
         </Button>
       </form>
     </>

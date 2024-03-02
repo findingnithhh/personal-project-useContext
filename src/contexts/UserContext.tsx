@@ -4,6 +4,7 @@ import { generateId } from "@/components/utils/generateId";
 export const UserContext = React.createContext<UserContextType>({
   users: [],
   addNewUser: () => {},
+  deleteUser: () => {},
 });
 
 const UserProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -20,10 +21,17 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       return newAllUser;
     });
   };
+
+  //   delete operation
+  const deleteUser = (id: string) => {
+    const thisUser = users.filter((user) => user.id !== id)
+    setUsers(thisUser)
+  };
   // provide value
   const value = {
     users,
     addNewUser,
+    deleteUser,
   };
 
   //   provides a context value and children to the consumer
