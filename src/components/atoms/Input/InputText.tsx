@@ -44,7 +44,7 @@ const InputText: React.FC<InputTextProps> = ({
         name={name}
         value={value}
         placeholder={placeholder}
-        className={`${getInputTextSize} outline-none my-5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:border-blue-500 block w-full p-3.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${className}`}
+        className={`${getInputTextSize}  outline-none my-5 bg-gray-900 border border-gray-300 text-gray-900 rounded-lg focus:border-blue-500 block w-full p-3.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${className}`}
         onChange={onChange}
       />
     </>

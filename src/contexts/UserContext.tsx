@@ -8,6 +8,7 @@ export const UserContext = React.createContext<UserContextType>({
   setSelectedCard: () => {},
   addNewUser: () => {},
   deleteUser: () => {},
+  updateUser: () => {},
 });
 
 const UserProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -19,7 +20,7 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // to get all data when selected card
   const selectedCardData = users.find((user) => user.id === selectedCard);
-  
+
   //   add operation
   const addNewUser = (user: UserForm) => {
     const id = generateId();
@@ -35,6 +36,18 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     const thisUser = users.filter((user) => user.id !== id);
     setUsers(thisUser);
   };
+
+  // update operation
+  const updateUser = (id: string, updateNewUser: UserForm) => {
+    setUsers((prevUsers) => {
+      return prevUsers.map((user) => {
+        if (user.id === id) {
+          return { ...user, ...updateNewUser };
+        }
+        return user;
+      });
+    });
+  };
   // provide value
   const value = {
     users,
@@ -43,6 +56,7 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     setSelectedCard,
     addNewUser,
     deleteUser,
+    updateUser,
   };
 
   //   provides a context value and children to the consumer

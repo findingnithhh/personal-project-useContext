@@ -10,7 +10,6 @@ const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const value = {
     isOpen,
     setIsOpen,

@@ -13,7 +13,7 @@ export interface UserContextType {
   setSelectedCard: React.Dispatch<React.SetStateAction<string | null>>;
   addNewUser: (user: UserForm) => void;
   deleteUser: (id: string) => void;
-  
+  updateUser: (id: string, updateNewUser: UserForm) => void;
 }
 
 export type UserForm = Omit<UserModel, "id">;

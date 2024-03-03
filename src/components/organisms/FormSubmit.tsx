@@ -8,6 +8,8 @@ import React, {
 import { InputFile, InputText, Button } from "../atoms";
 import { UserForm } from "@/@types/user";
 import { useUser } from "@/contexts/UserContext";
+import { useModal } from "@/contexts/ModalContext";
+import { Modal } from "./Modal";
 
 const Default_Form = {
   name: "",
@@ -15,24 +17,33 @@ const Default_Form = {
   image: "",
 };
 const FormSubmit = () => {
-  const { addNewUser, selectedCard, selectedCardData } = useUser();
+  const { addNewUser, selectedCard, selectedCardData, updateUser } = useUser();
+  const { setIsOpen } = useModal();
   // check if selected card has value or not, if true the form use for update user if not the form use for add user
   const [formData, setFromData] = useState<UserForm>(
     !selectedCard ? Default_Form : (selectedCardData as UserForm)
   );
-  
-  //   user to access file element
+
+  //  user to access file element
   const inputFileRef = useRef<HTMLInputElement>(null);
 
-  //   handle on submit form
+  //  handle on submit form
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    addNewUser(formData);
+    if (selectedCard) {
+      // this mean if the card seleted we will update user
+      updateUser(selectedCard, formData);
+    } else {
+      // if not selete card we will add user
+      addNewUser(formData);
+    }
     console.log(formData);
     // Clear the form after submission
     setFromData(Default_Form);
     // Reset the form to clear the file input
     e.currentTarget.reset();
+    // close modal after click create or update
+    setIsOpen(false);
   };
 
   //   handle on change in the form
@@ -92,7 +103,7 @@ const FormSubmit = () => {
           size="md"
           color="primary"
         >
-          Create
+          {selectedCard ? "Update" : "Create"}
         </Button>
         <Button
           type="reset"
