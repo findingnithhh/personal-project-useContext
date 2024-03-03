@@ -1,13 +1,20 @@
 import React from "react";
 import Image from "next/image";
+import toastr from "toastr";
+import "toastr/build/toastr.min.css"; // Import Toastr styles
 import { UserModel } from "@/@types/user";
 import { Button } from "../atoms";
 import { useUser } from "@/contexts/UserContext";
+
 const Card = ({ items }: { items: UserModel }) => {
   const { deleteUser, selectedCard, setSelectedCard } = useUser();
+
   const handleOnDelete = (id: string) => {
     deleteUser(id);
+    // Show Toastr notification on successful deletion
+    toastr.success(`${items.name} have been deleted successfully!`, "Success");
   };
+
   return (
     <>
       <div
@@ -16,8 +23,6 @@ const Card = ({ items }: { items: UserModel }) => {
             setSelectedCard("");
             return;
           }
-          console.log("click", selectedCard);
-
           setSelectedCard(items.id);
         }}
       >
@@ -37,7 +42,7 @@ const Card = ({ items }: { items: UserModel }) => {
                 className="rounded-md"
               />
             </figure>
-            <div className="card-body text-white mt-5">
+            <div className="card-body text-white mt-6">
               <h2 className="card-title mb-2">{items.name}</h2>
               <p>{items.email}</p>
               <div className="card-actions float-end mt-5 mb-0">

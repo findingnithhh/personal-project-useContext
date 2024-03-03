@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Button, FloatingButton } from "@/components/atoms";
 import { useModal } from "@/contexts/ModalContext";
 import { useUser } from "@/contexts/UserContext"; // Import useUser hook
@@ -7,6 +7,29 @@ const Modal = ({ children }: { children: ReactNode }) => {
   const { isOpen, setIsOpen } = useModal();
   const { selectedCard } = useUser(); // Destructure selectedCard from useUser hook
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleClickOutside = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      toggleModal();
+    }
+  };
+
+  // UseEffect to add event listener when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Clean up event listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -74,7 +97,6 @@ const Modal = ({ children }: { children: ReactNode }) => {
             </div>
           </div>
         )}
-
       </div>
     </>
   );
