@@ -15,13 +15,12 @@ const Default_Form = {
   image: "",
 };
 const FormSubmit = () => {
-  const { addNewUser } = useUser();
-  const [formData, setFromData] = useState<UserForm>({
-    name: "",
-    email: "",
-    image: "",
-  });
-
+  const { addNewUser, selectedCard, selectedCardData } = useUser();
+  // check if selected card has value or not, if true the form use for update user if not the form use for add user
+  const [formData, setFromData] = useState<UserForm>(
+    !selectedCard ? Default_Form : (selectedCardData as UserForm)
+  );
+  
   //   user to access file element
   const inputFileRef = useRef<HTMLInputElement>(null);
 

@@ -3,6 +3,9 @@ import { UserContextType, UserModel, UserForm } from "@/@types/user";
 import { generateId } from "@/components/utils/generateId";
 export const UserContext = React.createContext<UserContextType>({
   users: [],
+  selectedCard: null,
+  selectedCardData: undefined,
+  setSelectedCard: () => {},
   addNewUser: () => {},
   deleteUser: () => {},
 });
@@ -11,7 +14,12 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [users, setUsers] = useState<UserModel[]>([]);
+  // to store id of the card
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
+  // to get all data when selected card
+  const selectedCardData = users.find((user) => user.id === selectedCard);
+  
   //   add operation
   const addNewUser = (user: UserForm) => {
     const id = generateId();
@@ -24,12 +32,15 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   //   delete operation
   const deleteUser = (id: string) => {
-    const thisUser = users.filter((user) => user.id !== id)
-    setUsers(thisUser)
+    const thisUser = users.filter((user) => user.id !== id);
+    setUsers(thisUser);
   };
   // provide value
   const value = {
     users,
+    selectedCard,
+    selectedCardData,
+    setSelectedCard,
     addNewUser,
     deleteUser,
   };

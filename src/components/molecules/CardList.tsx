@@ -5,9 +5,9 @@ const CardList = () => {
   const { users } = useUser();
   return (
     <>
-      <div className="grid grid-cols-1 gap-10 lg:grid lg:grid-cols-2 gap-y-2 mx-auto w-[70%]">
+      <div className="grid grid-cols-1 gap-10 mx-auto lg:grid lg:grid-cols-3 gap-y-2 w-[70%]">
         {users.map((items, index) => (
-          <div key={index}>
+          <div key={index} className="flex justify-center items-center">
             <Card items={items} />
           </div>
         ))}
